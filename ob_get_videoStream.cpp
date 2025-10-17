@@ -1,4 +1,63 @@
-#include "OrbbecFrame.h"
+#pragma once
+#include <iostream>
+#include<vector>
+#include<queue>
+#include<fstream>
+
+#include<opencv2/opencv.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include<opencv2/video/background_segm.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include "Device.hpp"
+#include "Error.hpp"
+#include "Pipeline.hpp"
+#include "StreamProfile.hpp"
+#include "Frame.hpp"
+
+class  OrbbecFrame {
+private:
+	Mat bufferMat;
+	Mat depthMat;
+	Mat colorMat;
+	Mat depthMat2;
+	unsigned int bufferSize;
+	std::shared_ptr< ob::Config > config;
+	std::shared_ptr<ob::VideoStreamProfile> depthProfile;
+	std::shared_ptr<ob::VideoStreamProfile> colorProfile;
+	std::shared_ptr<ob::FrameSet> frameSet; //保存一次采集的帧数据（包括深度和颜色帧）
+	//Window app;
+public:
+	ob::Pipeline pipe;
+	int width;
+	int height;
+	OrbbecFrame(int pwidth, int pheight)
+	{
+		//MaxDitance = 3000;
+		width = pwidth;// normal 640   1280
+		height = pheight;// normal 400  800
+		bufferSize = width * height * sizeof(unsigned short);
+		bufferMat.create(height, width, CV_16SC1);//建立图像矩阵
+		depthMat.create(height, width, CV_8UC1);
+		colorMat.create(height, width, CV_8UC1);
+		depthMat2.create(height, width, CV_8UC1);
+	}
+
+	~OrbbecFrame()
+	{
+
+	}
+
+
+	int Open_orbbec_sensor();
+	int Get_Frame_Set(int time);
+
+	int Get_Depth_Frame(Mat& src);// get depth mat
+
+	int Get_Color_Frame(Mat& src);// get RGB mat
+
+	void Free_Frame();// release
+};
+
 
 
 int OrbbecFrame::Open_orbbec_sensor() { //打开并配置硬件设备
