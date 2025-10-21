@@ -6,7 +6,7 @@
 #include < string >
 
 //获取单个像素的高度 单个点的深度值，误差比较大，一般取某一小区域中值
-double get_single_pixel_height(cv::Mat img, int row, int col)
+double get_single_pixel_depth(cv::Mat img, int row, int col)
 {
 	CV_Assert(img.channels() == 1); // 确保是深度单通道图
 
