@@ -5,6 +5,9 @@
 #include <WINSOCK.H>
 #include < string >
 
+
+OrbbecFrame Frame(640, 400);
+
 double FOV_V = 66;//竖直视场角大小
 double FOV_H = 91;//水平
 double FOV_D = 111;//对角线
