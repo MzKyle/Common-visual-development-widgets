@@ -2,7 +2,7 @@
 #include "nlohmann/json.hpp" // 引入nlohmann/json库
 
 
-// 回调函数：接收服务器响应
+// 回调函数：接收服务器响应  (回调函数格式恒定)
 size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* s) {
 	size_t newLength = size * nmemb;
 	try {
